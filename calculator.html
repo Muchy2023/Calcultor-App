@@ -1,0 +1,124 @@
+<html>
+    <head>
+     <link rel="stylesheet" type="text/css" href="styles.css">
+    </head>
+    <body>
+        <table border="1">
+            <tr>
+                <td colspan="4">
+                    <input type="text" id="inputBox" value="0"/>
+                </td>
+            </tr>
+            <tr>
+                <td class="digitButton" onclick="digitButtonPressed(7)">7</td>
+                <td class="digitButton" onclick="digitButtonPressed(8)">8</td>
+                <td class="digitButton" onclick="digitButtonPressed(9)">9</td>
+                <td class="operatorButton" onclick="operatorButtonPressed('*')">x</td>
+            </tr>
+            <tr>
+                <td class="digitButton" onclick="digitButtonPressed(4)">4</td>
+                <td class="digitButton" onclick="digitButtonPressed(5)">5</td>
+                <td class="digitButton" onclick="digitButtonPressed(6)">6</td>
+                <td class="operatorButton" onclick="operatorButtonPressed('+')">+</td>  
+            </tr>
+            <tr>
+                <td class="digitButton" onclick="digitButtonPressed(1)">1</td>
+                <td class="digitButton" onclick="digitButtonPressed(2)">2</td>
+                <td class="digitButton" onclick="digitButtonPressed(3)">3</td>
+                <td class="operatorButton" onclick="operatorButtonPressed('-')">-</td>
+            </tr>
+            <tr>
+               <td colspan="2" onclick="zeroBtnPressed()">0</td>
+                <td class="ACButton" onclick="ACButtonPressed()">AC</td>
+                <td class="operatorButton" onclick="operatorButtonPressed('/')">/</td>
+             </tr>
+             <tr>
+                <td colspan = "4" onclick="equalBtnPressed()">=</td>
+                </tr>
+        </table>
+        <script>
+            
+           var newLine = true; // Controls whether input is cleared first
+    
+           function digitButtonPressed(button) {
+           var inputBox = document.getElementById("inputBox");
+
+        if (newLine) {
+            // If new input, replace existing value
+            inputBox.value = button;
+            newLine = false; // Reset new line flag
+        } else {
+            // Otherwise, append digits
+            inputBox.value += button;
+        }
+          }
+          function ACButtonPressed(){
+            document.getElementById("inputBox").value= 0;
+            newLine= true;
+          }
+          
+           function zeroBtnPressed() {
+            var inputBox = document.getElementById("inputBox");
+
+            if (newLine) {
+            inputBox.value = "0"; // Ensure the first digit is '0'
+            newLine = false; // Prevent overwriting
+           } else {
+           // Append '0' normally
+           if (inputBox.value !== "0") {
+             inputBox.value += "0";
+        }
+    }
+}  
+
+          var currentoperator = null;
+          var value1 = 0;
+          var value2 = 0;
+
+          function operatorButtonPressed(operator){
+            currentoperator= operator;
+            value1= parseInt(document.getElementById ("inputBox").value);
+            newLine= true;
+          }
+         
+        function equalBtnPressed() {
+         value2 = parseFloat(document.getElementById("inputBox").value); // Convert input to float
+         var finaltotal;
+
+         // Ensure an operator was selected
+         if (!currentoperator) {
+         alert("Please select an operator before pressing '='.");
+         return;
+          }
+
+          // Perform calculations
+          switch (currentoperator) {
+          case "+":
+            finaltotal = value1 + value2;
+            break;
+          case "-":
+            finaltotal = value1 - value2;
+            break;
+          case "*":
+            finaltotal = value1 * value2;
+            break;
+          case "/":
+            if (value2 === 0) {
+                alert("Cannot divide by zero!"); // Error message
+                return;
+            }
+            finaltotal = value1 / value2;
+            break;
+    }
+
+         // Display result in input box
+         document.getElementById("inputBox").value = finaltotal;
+
+         // Prepare for next input
+         value1 = finaltotal; // Store result for continued calculations
+         currentoperator = null; // Reset operator
+         newLine = true; // Allow new entry
+}
+        </script>  
+    </body>
+</html>
